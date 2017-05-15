@@ -3,10 +3,11 @@
 This program lists a series of meals for the week according to the season
 provided by the user.
 """
-
+##### LIBRARIES #####
 import csv
 import random
 
+##### CONSTANTS #####
 SEASON_INPUT = [
         "printemps", "spring",
         "ete", "été", "summer",
@@ -14,8 +15,26 @@ SEASON_INPUT = [
         "hiver", "winter",
 ]
 
-fname = "menus.csv"
-file = open(fname, 'r')
+FNAME = "menus.csv"
+
+##### USER DEFINED FUNCTIONS #####
+
+
+##### MAIN PROGRAM #####
+def main():
+    # parse .csv file
+    # demand informations to user: current season
+    # choice a random meal in the current season
+    # print the result
+
+
+## Releases
+# program takes arguments or not: file .csv + season
+# program detects the default language of operating system and change his interface
+# the result could give more informations: recipe's details ; ingredients
+
+"""
+file = open(FNAME, 'r')
 data_list = []
 autumn_list = []
 winter_list = []
@@ -51,7 +70,7 @@ if season in SEASON_INPUT:
     print(selectedMeals)
 else:
     print("Attention, la saison est mal orthographiee")
-"""
+
 if season == "ete":
     print("ete")
 elif season == "automne":
