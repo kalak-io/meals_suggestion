@@ -3,11 +3,15 @@
 This program lists a series of meals for the week according to the season
 provided by the user.
 """
-##### LIBRARIES #####
+##############################################################################
+#                               LIBRARIES                                    #
+##############################################################################
 import csv
 import random
 
-##### CONSTANTS #####
+##############################################################################
+#                               CONSTANTS                                    #
+##############################################################################
 SEASON_INPUT = [
         "printemps", "spring",
         "ete", "été", "summer",
@@ -15,22 +19,52 @@ SEASON_INPUT = [
         "hiver", "winter",
 ]
 
-FNAME = "menus.csv"
+FNAME = "dishes.csv"
 
-##### USER DEFINED FUNCTIONS #####
+##############################################################################
+#                               FUNCTIONS                                    #
+##############################################################################
 
 
-##### MAIN PROGRAM #####
+def convertCsvToDict(csvFile):
+    with open(csvFile) as f:
+        f.readline()
+        mydict = dict(csv.reader(f, delimiter=','))
+    return mydict
+
+def selectDishes(allDishes, season):
+    print(allDishes)
+    print(season)
+    menu = []
+    while len(menu) < 5:
+        meal = random.choice(list(allDishes.keys()))
+        if allDishes[meal] == season:
+            menu.append(meal)
+    return menu
+
+##############################################################################
+#                               MAIN                                         #
+##############################################################################
 def main():
     # parse .csv file
+    allDishes = convertCsvToDict(FNAME)
     # demand informations to user: current season
-    # choice a random meal in the current season
-    # print the result
+    print("Tapez le nom de l'actuelle saison : ")
+    season = input().lower()
+    if season in SEASON_INPUT:
+        # choice a random meal in the current season
+        menu = selectDishes(allDishes, season)
+        # print the result
+        print(menu)
+    else:
+        print("Attention, la saison est mal orthographiee")
 
+if __name__ == '__main__':
+    main()
 
-## Releases
+# Releases
 # program takes arguments or not: file .csv + season
-# program detects the default language of operating system and change his interface
+# program detects the default language of operating system
 # the result could give more informations: recipe's details ; ingredients
 
 """
@@ -43,7 +77,6 @@ summer_list = []
 for line in file:
     if "\"menu\"" not in line:
         data_list.append(line.strip().split(','))
-        """
         if "\"automne\"" not in line:
             autumn_list.append(line.strip().split(','))
         elif "\"hiver\"" not in line:
@@ -52,7 +85,6 @@ for line in file:
             spring_list.append(line.strip().split(','))
         elif "\"ete\"" not in line:
             summer_list.append(line.strip().split(','))
-        """
 file.close()
 print(autumn_list,winter_list,spring_list,summer_list)
 print(data_list)
