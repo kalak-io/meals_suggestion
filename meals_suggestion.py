@@ -12,12 +12,19 @@ import random
 ##############################################################################
 #                               CONSTANTS                                    #
 ##############################################################################
-SEASON_INPUT = [
-        "printemps", "spring",
-        "ete", "été", "summer",
-        "automne", "autumn",
-        "hiver", "winter",
-]
+SEASON_INPUT = {
+        "spring": ["printemps", "spring", ],
+        "summer": ["ete", "été", "summer", ],
+        "autumn": ["automne", "autumn", ],
+        "winter": ["hiver", "winter", ],
+}
+
+MEALS_BY_SEASON = {
+        "spring": [],
+        "summer": [],
+        "autumn": [],
+        "winter": [],
+}
 
 FNAME = "dishes.csv"
 
@@ -26,38 +33,49 @@ FNAME = "dishes.csv"
 ##############################################################################
 
 
-def convertCsvToDict(csvFile):
-    with open(csvFile) as f:
+def convert_csv_to_dict(csv_file):
+    with open(csv_file) as f:
         f.readline()
-        mydict = dict(csv.reader(f, delimiter=','))
-    return mydict
+        d = dict(csv.reader(f, delimiter=','))
+        for key, value in d.items():
+            MEALS_BY_SEASON[value].append(key)
 
-def selectDishes(allDishes, season):
-    print(allDishes)
-    print(season)
+
+def check_validity_season(wanted_season):
+    for key, value in SEASON_INPUT.items():
+        if wanted_season in value:
+            return key
+    else:
+        print("Attention, la saison est mal orthographiee")
+
+
+def select_dishes(current_season):
     menu = []
-    while len(menu) < 5:
-        meal = random.choice(list(allDishes.keys()))
-        if allDishes[meal] == season:
+    count = 0
+    while len(menu) < 5 and count < 10:
+        meal = random.choice(MEALS_BY_SEASON[current_season])
+        print(meal)
+        if meal not in menu:
             menu.append(meal)
+        count += 1
     return menu
 
 ##############################################################################
 #                               MAIN                                         #
 ##############################################################################
+
+
 def main():
     # parse .csv file
-    allDishes = convertCsvToDict(FNAME)
+    convert_csv_to_dict(FNAME)
     # demand informations to user: current season
     print("Tapez le nom de l'actuelle saison : ")
-    season = input().lower()
-    if season in SEASON_INPUT:
-        # choice a random meal in the current season
-        menu = selectDishes(allDishes, season)
-        # print the result
-        print(menu)
-    else:
-        print("Attention, la saison est mal orthographiee")
+    wanted_season = input().lower()
+    current_season = check_validity_season(wanted_season)
+    print(MEALS_BY_SEASON)
+    menu = select_dishes(current_season)
+    print(menu)
+
 
 if __name__ == '__main__':
     main()
@@ -66,49 +84,3 @@ if __name__ == '__main__':
 # program takes arguments or not: file .csv + season
 # program detects the default language of operating system
 # the result could give more informations: recipe's details ; ingredients
-
-"""
-file = open(FNAME, 'r')
-data_list = []
-autumn_list = []
-winter_list = []
-spring_list = []
-summer_list = []
-for line in file:
-    if "\"menu\"" not in line:
-        data_list.append(line.strip().split(','))
-        if "\"automne\"" not in line:
-            autumn_list.append(line.strip().split(','))
-        elif "\"hiver\"" not in line:
-            winter_list.append(line.strip().split(','))
-        elif "\"printemps\"" not in line:
-            spring_list.append(line.strip().split(','))
-        elif "\"ete\"" not in line:
-            summer_list.append(line.strip().split(','))
-file.close()
-print(autumn_list,winter_list,spring_list,summer_list)
-print(data_list)
-
-def buildMenus(season):
-    selectedMeals = []
-    selectedMeals.append(random.choice(data_list))
-    return selectedMeals
-
-print("Tapez le nom de l'actuelle saison : ")
-season = input().lower()
-if season in SEASON_INPUT:
-    print(season)
-    selectedMeals = buildMenus(season)
-    print(selectedMeals)
-else:
-    print("Attention, la saison est mal orthographiee")
-
-if season == "ete":
-    print("ete")
-elif season == "automne":
-    print("automne")
-elif season == "hiver":
-    print("hiver")
-elif season == "printemps":
-    print("printemps")
-"""
