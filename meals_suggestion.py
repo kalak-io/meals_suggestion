@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 """
 This program lists a series of meals for the week according to the season
 provided by the user.
@@ -27,6 +28,10 @@ MEALS_BY_SEASON = {
 }
 
 FNAME = "dishes.csv"
+
+##############################################################################
+#                               CONSTANTS                                    #
+##############################################################################
 
 ##############################################################################
 #                               FUNCTIONS                                    #
