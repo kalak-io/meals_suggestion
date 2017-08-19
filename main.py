@@ -56,13 +56,13 @@ def main():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--file", type=str,
+    parser.add_argument('-f', '--file', type=str,
                         default='dishes.csv',
                         help="Load your menu file")
-    parser.add_argument("--season", type=str,
+    parser.add_argument('-s', '--season', type=str,
                         choices=["spring", "summer", "autumn", "winter"],
                         help="Choose your current season")
-    parser.add_argument("--number", type=int,
+    parser.add_argument('-n', '--number', type=int,
                         default=5,
                         help="Type the number of meals in the generated menu")
     args = parser.parse_args()
