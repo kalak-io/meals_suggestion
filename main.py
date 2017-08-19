@@ -4,23 +4,28 @@
 import argparse
 import csv
 import random
+import sys
 
 import settings
 
 
 def import_from_csv(csv_file, season):
-    meals_of_season = []
-    with open(csv_file) as f:
-        f.readline()
-        d = dict(csv.reader(f, delimiter=','))
-        for key, value in d.items():
-            if season == value:
-                meals_of_season.append(key)
-    return meals_of_season
+    try:
+        meals_of_season = []
+        with open(csv_file) as f:
+            f.readline()
+            d = dict(csv.reader(f, delimiter=','))
+            for key, value in d.items():
+                if season == value:
+                    meals_of_season.append(key)
+        return meals_of_season
+    except:
+        print('No such file: {}'.format(csv_file))
+        sys.exit(-1)
 
 
 def ask_season_to_user():
-    wanted_season = input('Type the wanted season: ').lower()
+    wanted_season = input('Type the wanted season:\t').lower()
     if wanted_season in settings.SPRING:
         wanted_season = 'spring'
     elif wanted_season in settings.SUMMER:
@@ -57,7 +62,7 @@ def main():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--file', type=str,
-                        default='dishes.csv',
+                        required=True,
                         help="Load your menu file")
     parser.add_argument('-s', '--season', type=str,
                         choices=["spring", "summer", "autumn", "winter"],
